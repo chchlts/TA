@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Deployment aplikasi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-light bg-primary">
+        <h2 class="navabar-brand">Chronic Wound Classification System</h2>
+        <!-- <a class="navbar-brand" href="#">Chronic Wound Classification System</a> -->
+    </nav>
+
+    <p>
+        {% with messages = get_flashed_messages() %} {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %} {% endwith %}
+    </p>
+
+    {% if not result_image %}
+
+    <form action="/" class="p-3 text-center" method="post" enctype="multipart/form-data">
+        <input type="file" name="imagefile" class="form-control">
+        <input type="submit" class="btn btn-primary mt - 3" value="Predict Image">
+    </form>
+
+    {% endif %} {% if result_image %}
+
+    <section id="project" class="section-space section-color-none">
+        <div class="container">
+            <div class="row">
+                <div class="col-4">
+                    <div style="padding: 20px;">
+                        <h2>Original image</h2>
+                        <!-- <img src="{{ url_for('display_image', filename=filename) }}" alt=""> -->
+                        <img src="{{ original_image }}" alt="User Image">
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div style="padding: 20px;">
+                        <h2>Segmentation</h2>
+                        <!-- <img src="{{ url_for('display_image', filename=filename) }}" alt=""> -->
+                        <img src="{{ result_image }}" alt="User Image">
+
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div style="padding: 20px;">
+                        <h2>Foreground</h2>
+                        <!-- <img src="{{ url_for('display_image', filename=filename) }}" alt=""> -->
+                        <img src="{{ cropped_image }}" alt="User Image">
+
+                    </div>
+                </div>
+            </div>
+    </section>
+    <!-- <div style="padding: 20px;">
+         <img src="{{ url_for('display_image', filename=filename) }}" alt="">
+        <img src="{{ original_image }}" alt="User Image">
+    </div>
+    <div style="padding: 20px;">
+         <img src="{{ url_for('display_image', filename=filename) }}" alt=""> 
+        <img src="{{ result_image }}" alt="User Image">
+    </div> -->
+    {% endif %}
+
+    <div>
+        <h3>Color score</h3>
+        <h4>{{ classification_pred }}</h4>
+        <h4>{{ label }}</h4>
+        <h3>Inflammation score</h3>
+        <h4>{{ inflammation_pred }}</h4>
+        <h4>{{ inflammation_label }}</h4>
+        <h3>Exudate score</h3>
+        <h4>{{ exudate_pred }}</h4>
+        <h4>{{ exudate_label }}</h4>
+        <br>
+        <h4>{{ total_score }}</h4>
+        <h4>{{ status }}</h4>
+    </div>
+</body>
+
+</html>
